@@ -22,6 +22,10 @@ public class GroceryList2 {
         this(null,null, 0);
     }
 
+//    public GroceryList2(String name){
+//        this.name = new SimpleStringProperty(name);
+//    }
+
     public GroceryList2(String name, ObservableList<GroceryItem> itemOrders, int count) {
         this.name = new SimpleStringProperty(name);
         this.listItemCount = new SimpleIntegerProperty(count);

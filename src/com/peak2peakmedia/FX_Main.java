@@ -2,6 +2,7 @@ package com.peak2peakmedia;
 
 import com.peak2peakmedia.model.GroceryItem;
 import com.peak2peakmedia.model.GroceryList2;
+import com.peak2peakmedia.view.GroceryListEditDialogController;
 import com.peak2peakmedia.view.GroceryListOverviewController;
 import com.peak2peakmedia.view.ItemEditDialogController;
 import com.peak2peakmedia.view.RootLayoutController;
@@ -81,6 +82,64 @@ public class FX_Main extends Application {
         } catch (IOException e){
             e.printStackTrace();
 
+        }
+    }
+
+    public boolean showItemEditDialog(GroceryItem tempItem) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(FX_Main.class.getResource("view/ItemEditDialog.fxml"));
+
+            AnchorPane page = (AnchorPane) loader.load();
+
+            //Create Dialog Stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Item");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            ItemEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setItem(tempItem);
+
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+
+    public boolean showGroceryListEditDialog(GroceryList2 tempItem) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(FX_Main.class.getResource("view/GroceryListEditDialog.fxml"));
+
+            AnchorPane page = (AnchorPane) loader.load();
+
+            //Create Dialog Stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Item");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            GroceryListEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setList(tempItem);
+
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

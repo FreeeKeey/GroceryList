@@ -5,6 +5,7 @@ import com.peak2peakmedia.model.GroceryItem;
 import com.peak2peakmedia.model.GroceryList2;
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -58,13 +59,86 @@ public class GroceryListOverviewController {
     @FXML
     private void initialize(){
         listNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-
-
-        //FIXME
         listCountColumn.setCellValueFactory(cellData -> cellData.getValue().listItemCountProperty().asObject());
-        updateItemTable();
-
         listTable.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> showListOverview(newValue)));
+
+        updateItemTable();
+    }
+
+    // Buttons for List
+
+    @FXML
+    private void newListButton(){
+        GroceryList2 tempItem = new GroceryList2();
+        boolean okClicked = main.showGroceryListEditDialog(tempItem);
+        if (okClicked)
+            main.getGroceryListsData().add(tempItem);
+        newItemButton();
+    }
+
+    @FXML
+    private void editListButton(){
+        GroceryList2 selectedList = listTable.getSelectionModel().getSelectedItem();
+
+        if (selectedList != null){
+
+        }
+    }
+
+    @FXML
+    private void deleteListButton(){
+        int selectedIndex = listTable.getSelectionModel().getSelectedIndex();
+
+        if (selectedIndex >=0){
+            listTable.getItems().remove(selectedIndex);
+        } else {
+            //Nothing selected
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No List Selected");
+            alert.setContentText("Please select a list before trying to delete");
+            alert.showAndWait();
+        }
+
+    }
+
+    // Buttons for Item
+    @FXML
+    private void newItemButton(){
+        int selectedIndex = listTable.getSelectionModel().getSelectedIndex();
+
+        if (selectedIndex >=0) {
+            listTable.getItems();
+            GroceryItem tempItem = new GroceryItem();
+            boolean okClicked = main.showItemEditDialog(tempItem);
+            if (okClicked)
+                main.getGroceryItems().add(tempItem);
+        }
+
+    }
+
+    @FXML
+    private void editItemButton(){
+
+    }
+
+    @FXML
+    private void deleteItemButton(){
+        int selectedIndex = itemTable.getSelectionModel().getSelectedIndex();
+
+        if (selectedIndex >=0){
+            itemTable.getItems().remove(selectedIndex);
+        } else {
+            //Nothing selected
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No List Selected");
+            alert.setContentText("Please select a list before trying to delete");
+            alert.showAndWait();
+        }
+
     }
 
     public void setMain(FX_Main main) {

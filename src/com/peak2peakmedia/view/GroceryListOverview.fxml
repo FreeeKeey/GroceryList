@@ -5,18 +5,25 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.peak2peakmedia.view.GroceryListOverviewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.peak2peakmedia.view.GroceryListOverviewController">
    <children>
       <SplitPane dividerPositions="0.34615384615384615" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="196.0">
                <children>
-                  <TableView fx:id="listTable" layoutX="2.0" prefHeight="398.0" prefWidth="203.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="listTable" layoutX="2.0" prefHeight="361.0" prefWidth="203.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="listNameColumn" prefWidth="125.0" text="List Name" />
                         <TableColumn fx:id="listCountColumn" prefWidth="77.0" text="# Items" />
                     </columns>
                   </TableView>
+                  <HBox layoutX="12.0" layoutY="367.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                     <children>
+                        <Button layoutX="62.0" layoutY="358.0" mnemonicParsing="false" onAction="#newListButton" prefHeight="27.0" prefWidth="60.0" text="New" />
+                        <Button mnemonicParsing="false" onAction="#editListButton" prefHeight="27.0" prefWidth="60.0" text="Edit" />
+                        <Button layoutX="121.0" layoutY="358.0" mnemonicParsing="false" onAction="#deleteListButton" prefHeight="27.0" prefWidth="60.0" text="Delete" />
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -29,11 +36,11 @@
                         <TableColumn fx:id="itemTotalCostColumn" prefWidth="98.0" text="Total Cost" />
                     </columns>
                   </TableView>
-                  <HBox layoutX="169.0" layoutY="173.0" prefHeight="28.0" prefWidth="211.0">
+                  <HBox layoutX="169.0" layoutY="173.0" prefHeight="28.0" prefWidth="211.0" AnchorPane.bottomAnchor="200.0" AnchorPane.rightAnchor="10.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Add Item" />
-                        <Button mnemonicParsing="false" text="Edit Item" />
-                        <Button mnemonicParsing="false" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#newItemButton" text="Add Item" />
+                        <Button mnemonicParsing="false" onAction="#editItemButton" text="Edit Item" />
+                        <Button mnemonicParsing="false" onAction="#deleteItemButton" text="Delete" />
                      </children>
                   </HBox>
                   <Label fx:id="listNameLabel" layoutX="14.0" layoutY="14.0" text="List Name Here" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
@@ -57,7 +64,6 @@
                         <Label fx:id="totalCostLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
-                  <Button layoutX="305.0" layoutY="21.0" mnemonicParsing="false" text="Edit List" />
                </children>
             </AnchorPane>
         </items>
