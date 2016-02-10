@@ -33,7 +33,7 @@ public void addItem(GroceryItem item){
         double totalCost = 0;
 
         for (GroceryItem item: itemOrders) {
-            totalCost += item.getCost();
+            totalCost += item.getUnitTotalPrice();
         }
         return totalCost;
     }

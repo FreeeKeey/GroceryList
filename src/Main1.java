@@ -1,6 +1,6 @@
 
-import com.peak2peakmedia.model.GroceryList2;
 import com.peak2peakmedia.model.GroceryItem;
+import com.peak2peakmedia.model.GroceryList2;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -153,7 +153,7 @@ public class Main1 {
         System.out.println("Enter the Price of the Item: ");
         double price = input.nextDouble();
 
-        return new GroceryItem(0, name, 1, price);
+        return new GroceryItem(/*ID,*/ name, 1, price);
     }
 
     public static void addItemToDatabase() {
@@ -170,7 +170,7 @@ public class Main1 {
             GroceryItem item = createNewItem();
 
             String sql = "INSERT INTO store " +
-                    "VALUES (id, '" + item.getItemName() + "'," + item.getPrice() + ")";
+                    "VALUES (id, '" + item.getItemName() + "'," + item.getUnitTotalPrice() + ")";
             stmt.executeUpdate(sql);
 
             System.out.println("Inserted records into the table...");
@@ -264,7 +264,7 @@ public class Main1 {
                 //Display values
                 //System.out.printf("ID: %d \t Item: %s Price: %.2f \n \n", id, name, price);
 
-                item = new GroceryItem(id, name, 1, price);
+                item = new GroceryItem(/*ID,*/ name, 1, price);
             }
             rs.close();
         } catch (SQLException se) {
@@ -293,7 +293,7 @@ public class Main1 {
             for (GroceryItem item : list.itemOrders) {
 
                 String sql = "INSERT INTO storelists " +
-                        "VALUES (id, '" + list.getName() + "', '" + item.getID() + "', '" + item.getQty() + "')";
+                        "VALUES (id, '" + list.getName() + "', '"+ /* + item.getID() +*/ "', '" + item.getQty() + "')";
                 stmt.executeUpdate(sql);
             }
             System.out.println("Inserted records into the table...");

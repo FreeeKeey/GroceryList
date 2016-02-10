@@ -1,6 +1,11 @@
 package com.peak2peakmedia.model;
 
-import com.peak2peakmedia.model.GroceryItem;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
@@ -8,14 +13,20 @@ import java.util.ArrayList;
  * Created by colinhill on 2/2/16.
  */
 public class GroceryList2 {
-    private String name;
-    public ArrayList<GroceryItem> itemOrders = new ArrayList<GroceryItem>();
+    private final StringProperty name;
+    private final IntegerProperty listItemCount;
 
-    public GroceryList2(){}
+    public ObservableList<GroceryItem> itemOrders = FXCollections.observableArrayList();
 
-    public GroceryList2(String name, ArrayList<GroceryItem> itemOrders) {
-        this.name = name;
+    public GroceryList2(){
+        this(null,null, 0);
+    }
+
+    public GroceryList2(String name, ObservableList<GroceryItem> itemOrders, int count) {
+        this.name = new SimpleStringProperty(name);
+        this.listItemCount = new SimpleIntegerProperty(count);
         this.itemOrders = itemOrders;
+
     }
 
     public void addItem(GroceryItem item){
@@ -27,18 +38,34 @@ public class GroceryList2 {
     }
 
     public String getName() {
+        return name.get();
+    }
+
+    public StringProperty nameProperty() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
+    }
+
+    public int getListItemCount() {
+        return listItemCount.get();
+    }
+
+    public IntegerProperty listItemCountProperty() {
+        return listItemCount;
+    }
+
+    public void setListItemCount() {
+        this.listItemCount.set(itemOrders.size());
     }
 
     public double getTotalCost(){
         double totalCost = 0;
 
         for (GroceryItem item: itemOrders) {
-            totalCost += item.getCost();
+            totalCost += item.getUnitTotalPrice();
         }
         return totalCost;
     }
