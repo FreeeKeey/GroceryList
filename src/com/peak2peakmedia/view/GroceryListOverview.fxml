@@ -36,7 +36,7 @@
                         <TableColumn fx:id="itemTotalCostColumn" prefWidth="98.0" text="Total Cost" />
                     </columns>
                   </TableView>
-                  <HBox layoutX="169.0" layoutY="173.0" prefHeight="28.0" prefWidth="211.0" AnchorPane.bottomAnchor="200.0" AnchorPane.rightAnchor="10.0">
+                  <HBox layoutX="169.0" layoutY="173.0" prefHeight="28.0" prefWidth="211.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="160.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#newItemButton" text="Add Item" />
                         <Button mnemonicParsing="false" onAction="#editItemButton" text="Edit Item" />
