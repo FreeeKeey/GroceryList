@@ -2,11 +2,10 @@ package com.peak2peakmedia;
 
 import com.peak2peakmedia.model.GroceryItem;
 import com.peak2peakmedia.model.GroceryList2;
-import com.peak2peakmedia.view.GroceryListEditDialogController;
-import com.peak2peakmedia.view.GroceryListOverviewController;
-import com.peak2peakmedia.view.ItemEditDialogController;
-import com.peak2peakmedia.view.RootLayoutController;
+import com.peak2peakmedia.view.*;
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Observer;
 
 /**
  * Created by colinhill on 2/9/16.
@@ -43,9 +43,16 @@ public class FX_Main extends Application {
 
     public FX_Main(){
 
-        groceryItems.add(new GroceryItem("Tomatoes", 3, 1.99));
-        groceryItems.add(new GroceryItem("Pineapple", 2, 4.99));
-        groceryItems.add(new GroceryItem("Apples", 4, 2.99));
+        GroceryList2 list = new GroceryList2();
+        java.util.Observable lost = new java.util.Observable();
+        Supermarket market = new Supermarket(lost, list);
+
+
+
+
+        groceryItems.add(new GroceryItem("Tomatoes", 3, 1.99, 27));
+        groceryItems.add(new GroceryItem("Pineapple", 2, 4.99, 12));
+        groceryItems.add(new GroceryItem("Apples", 4, 2.99, 4));
 
         groceryListsData.add(new GroceryList2("MyList", groceryItems, groceryItems.size()));
     }
@@ -61,6 +68,8 @@ public class FX_Main extends Application {
         root = (BorderPane) loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+
+
 
         primaryStage.show();
 

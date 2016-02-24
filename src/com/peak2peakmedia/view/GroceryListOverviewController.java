@@ -3,29 +3,29 @@ package com.peak2peakmedia.view;
 import com.peak2peakmedia.FX_Main;
 import com.peak2peakmedia.model.GroceryItem;
 import com.peak2peakmedia.model.GroceryList2;
-import javafx.beans.property.DoubleProperty;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by colinhill on 2/9/16.
  */
-public class GroceryListOverviewController {
+public class GroceryListOverviewController implements Observer{
 
     private FX_Main main;
+    GroceryList2 currentList = new GroceryList2();
+
+
 
     @FXML
     private TableView<GroceryList2> listTable;
 
     @FXML
     private TableColumn<GroceryList2, String> listNameColumn;
-
-
 
     @FXML
     private TableColumn<GroceryList2, Integer> listCountColumn;
@@ -46,9 +46,6 @@ public class GroceryListOverviewController {
     @FXML
     private TableColumn<GroceryItem, Double> itemTotalCostColumn;
 
-
-
-
     @FXML
     private Label listNameLabel;
     @FXML
@@ -62,7 +59,13 @@ public class GroceryListOverviewController {
         listCountColumn.setCellValueFactory(cellData -> cellData.getValue().listItemCountProperty().asObject());
         listTable.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> showListOverview(newValue)));
 
+        itemTable.setEditable(true);
+        
+
         updateItemTable();
+
+
+
     }
 
     // Buttons for List
@@ -149,10 +152,25 @@ public class GroceryListOverviewController {
 
     private void updateItemTable(){
 
+
+
         itemNameColumn.setCellValueFactory(cellData -> cellData.getValue().itemNameProperty());
         itemQtyColumn.setCellValueFactory(cellData -> cellData.getValue().qtyProperty().asObject());
+        itemQtyColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<GroceryItem, Integer>>(){
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<GroceryItem, Integer> t) {
+                        ( t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setQty(t.getNewValue());
+                    }
+                }
+        );
+
         itemUnitPriceColumn.setCellValueFactory(cellData -> cellData.getValue().unitPriceProperty().asObject());
         itemTotalCostColumn.setCellValueFactory(cellData -> cellData.getValue().unitTotalPriceProperty().asObject());
+        itemTable.getItems();
+
 
     }
     private void showListOverview(GroceryList2 list){
@@ -172,6 +190,26 @@ public class GroceryListOverviewController {
             itemUnitPriceColumn.setText("");
             itemTotalCostColumn.setText("");
 
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (currentList.itemOrders != null){
+            //Fill labels with info from the list object
+            listNameLabel.setText(currentList.getName());
+            itemCountLabel.setText(Integer.toString(currentList.itemOrders.size()));
+            totalCostLabel.setText("$"+Double.toString(currentList.getTotalCost()));
+
+            itemTable.setItems(main.getGroceryItems());
+
+        } else {
+            listNameLabel.setText("");
+            itemCountLabel.setText("");
+            itemNameColumn.setText("");
+            itemQtyColumn.setText("");
+            itemUnitPriceColumn.setText("");
+            itemTotalCostColumn.setText("");
         }
     }
 }

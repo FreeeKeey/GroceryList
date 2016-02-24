@@ -1,5 +1,8 @@
 package com.peak2peakmedia.model;
 
+import com.peak2peakmedia.view.Supermarket;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,11 +11,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 /**
  * Created by colinhill on 2/2/16.
  */
-public class GroceryList2 {
+public class GroceryList2 implements Observable{
     private final StringProperty name;
     private final IntegerProperty listItemCount;
 
@@ -33,12 +37,34 @@ public class GroceryList2 {
 
     }
 
+    @Override
+    public void addListener(InvalidationListener listener) {
+//        listener.invalidated(itemOrders);
+        itemOrders.addListener(listener);
+
+    }
+
+
+    @Override
+    public void removeListener(InvalidationListener listener) {
+//        listener.invalidated(itemOrders);
+        itemOrders.removeListener(listener);
+    }
+
+
+
     public void addItem(GroceryItem item){
         if (itemOrders.size() > 9){
             System.out.println("List is Full - Please create a new List");
         } else {
             itemOrders.add(item);
         }
+
+        item.setStock(item.getStock() - item.getQty());
+
+        itemOrders.notifyAll();
+
+
     }
 
     public String getName() {

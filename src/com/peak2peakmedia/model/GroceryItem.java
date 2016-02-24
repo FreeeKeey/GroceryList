@@ -11,17 +11,19 @@ public class GroceryItem {
     private final IntegerProperty qty;
     private final DoubleProperty unitPrice;
     private final DoubleProperty unitTotalPrice;
+    private final IntegerProperty stock;
 //    private int ID;
 
 
     public GroceryItem() {
-        this(null,0, 0);
+        this(null,0, 0, 0);
     }
 
-    public GroceryItem(String itemName, int qty, double price){
+    public GroceryItem(String itemName, int qty, double price, int stock){
         this.itemName = new SimpleStringProperty(itemName);
         this.qty = new SimpleIntegerProperty(qty);
         this.unitPrice = new SimpleDoubleProperty(price);
+        this.stock = new SimpleIntegerProperty(stock);
         unitTotalPrice = new SimpleDoubleProperty(getQty() * getUnitPrice());
     }
 
@@ -71,6 +73,18 @@ public class GroceryItem {
 
     public void setUnitTotalPrice(double unitTotalPrice) {
         this.unitTotalPrice.set(unitTotalPrice);
+    }
+
+    public int getStock() {
+        return stock.get();
+    }
+
+    public IntegerProperty stockProperty() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock.set(stock);
     }
 
     @Override

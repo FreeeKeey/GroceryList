@@ -153,7 +153,7 @@ public class Main1 {
         System.out.println("Enter the Price of the Item: ");
         double price = input.nextDouble();
 
-        return new GroceryItem(/*ID,*/ name, 1, price);
+        return new GroceryItem(/*ID,*/ name, 1, price, 10);
     }
 
     public static void addItemToDatabase() {
@@ -170,7 +170,7 @@ public class Main1 {
             GroceryItem item = createNewItem();
 
             String sql = "INSERT INTO store " +
-                    "VALUES (id, '" + item.getItemName() + "'," + item.getUnitTotalPrice() + ")";
+                    "VALUES (id, '" + item.getItemName() + "'," + item.getUnitTotalPrice() + item.getStock()+ ")";
             stmt.executeUpdate(sql);
 
             System.out.println("Inserted records into the table...");
@@ -201,9 +201,10 @@ public class Main1 {
                 int id = rs.getInt("id");
                 double price = rs.getFloat("price");
                 String name = rs.getString("name");
+                int stock = rs.getInt("remaining");
 
                 //Display values
-                System.out.printf("ID: %d \t Item: %s Price: %.2f \n", id, name, price);
+                System.out.printf("ID: %d \t Item: %s Price: %.2f Remaining: %d\n", id, name, price, stock);
             }
             rs.close();
         } catch (SQLException se) {
@@ -260,11 +261,12 @@ public class Main1 {
                 id = rs.getInt("id");
                 double price = rs.getFloat("price");
                 String name = rs.getString("name");
+                int stock = rs.getInt("remaining");
 
                 //Display values
                 //System.out.printf("ID: %d \t Item: %s Price: %.2f \n \n", id, name, price);
 
-                item = new GroceryItem(/*ID,*/ name, 1, price);
+                item = new GroceryItem(/*ID,*/ name, 1, price, stock);
             }
             rs.close();
         } catch (SQLException se) {
