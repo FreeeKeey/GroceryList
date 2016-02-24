@@ -10,17 +10,16 @@ import java.util.Observer;
  */
 public class Supermarket implements Observer {
 
-    private GroceryList2 list = null;
 
-    public Supermarket(Observable o, GroceryList2 list) {
+    public Supermarket(Observable o) {
         o.addObserver(this);
-        this.list = list;
+
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        for (int i = 0; i < list.itemOrders.size(); i++) {
-            System.out.printf("The Super market has %d of %s in stock", list.itemOrders.get(i).getQty(), list.itemOrders.get(i).getItemName());
+        for (int i = 0; i < ((GroceryList2)o).currentGroceryList.size(); i++) {
+            System.out.printf("The Super market has %d of %s in stock", ((GroceryList2)o).currentGroceryList.get(i).getStock(), ((GroceryList2)o).currentGroceryList.get(i).getItemName());
         }
     }
 }

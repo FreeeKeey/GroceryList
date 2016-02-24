@@ -7,7 +7,6 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.util.*;
 
@@ -177,7 +176,7 @@ public class GroceryListOverviewController implements Observer{
         if (list != null){
             //Fill labels with info from the person object
             listNameLabel.setText(list.getName());
-            itemCountLabel.setText(Integer.toString(list.itemOrders.size()));
+            itemCountLabel.setText(Integer.toString(list.currentGroceryList.size()));
             totalCostLabel.setText("$"+Double.toString(list.getTotalCost()));
 
             itemTable.setItems(main.getGroceryItems());
@@ -195,10 +194,10 @@ public class GroceryListOverviewController implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        if (currentList.itemOrders != null){
+        if (currentList.currentGroceryList != null){
             //Fill labels with info from the list object
             listNameLabel.setText(currentList.getName());
-            itemCountLabel.setText(Integer.toString(currentList.itemOrders.size()));
+            itemCountLabel.setText(Integer.toString(currentList.currentGroceryList.size()));
             totalCostLabel.setText("$"+Double.toString(currentList.getTotalCost()));
 
             itemTable.setItems(main.getGroceryItems());

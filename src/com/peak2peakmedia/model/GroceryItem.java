@@ -89,6 +89,6 @@ public class GroceryItem {
 
     @Override
     public String toString() {
-        return String.format("%s\t\t Qty: %d\t\t  Cost $%.2f", itemName, qty, getUnitTotalPrice());
+        return String.format("%s\t\t Qty: %d\t\t  Cost $%.2f \t\t Inventory: %d", itemName, getQty(), getUnitTotalPrice(), getStock());
     }
 }

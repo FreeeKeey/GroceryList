@@ -1,11 +1,15 @@
 
 import com.peak2peakmedia.model.GroceryItem;
 import com.peak2peakmedia.model.GroceryList2;
+import com.peak2peakmedia.view.Supermarket;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.PrintStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -18,13 +22,30 @@ public class Main1 {
     static final String DB_URL = "jdbc:mysql://localhost/sys";
     static final ArrayList<String> listNames = new ArrayList<String>();
 
-
     //  Database credentials
     static final String USER = "root";
     static final String PASS = "teamtreehouse";
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+
+        ObservableList<GroceryItem> items = FXCollections.observableArrayList();
+
+        items.add(new GroceryItem("Tomatoes", 3, 1.99, 27));
+        items.add(new GroceryItem("Pineapple", 2, 4.99, 12));
+        items.add(new GroceryItem("Apples", 4, 2.99, 4));
+
+        GroceryList2 list = new GroceryList2("Listy", items);
+
+        Supermarket market = new Supermarket(list);
+
+        System.out.println(list);
+
+        list.addItem(new GroceryItem("Peanuts", 2, 6.99, 2));
+
+        System.out.println(list);
+
+
         getListNames();
         mainMenu(input);
     }
@@ -132,6 +153,7 @@ public class Main1 {
                 item = selectItemFromDatabase(input.nextInt());
                 System.out.printf("How many %s(s) would you like to add?", item.getItemName());
                 item.setQty(input.nextInt());
+                System.out.println("Item to be added" + item);
                 list.addItem(item);
             } else {
                 System.out.println("List before Save \n" + list);
@@ -193,7 +215,7 @@ public class Main1 {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
 
-            String sql = "SELECT id, name, price FROM store";
+            String sql = "SELECT * FROM store";
             ResultSet rs = stmt.executeQuery(sql);
             //STEP 5: Extract data from result set
             while (rs.next()) {
@@ -292,7 +314,7 @@ public class Main1 {
             stmt = connection.createStatement();
 
 
-            for (GroceryItem item : list.itemOrders) {
+            for (GroceryItem item : list.currentGroceryList) {
 
                 String sql = "INSERT INTO storelists " +
                         "VALUES (id, '" + list.getName() + "', '"+ /* + item.getID() +*/ "', '" + item.getQty() + "')";
@@ -401,7 +423,7 @@ public class Main1 {
 
             output.println(list.getName() + "\n\n");
 
-            for (GroceryItem item : list.itemOrders) {
+            for (GroceryItem item : list.currentGroceryList) {
                 output.printf("%s %d \n", item.getItemName(), item.getQty());
             }
             output.printf("\n\nTotal Cost: \t\t\t\t\t $%.2f\n", list.getTotalCost());

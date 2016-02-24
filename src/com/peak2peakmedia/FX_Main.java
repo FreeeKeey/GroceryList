@@ -4,8 +4,6 @@ import com.peak2peakmedia.model.GroceryItem;
 import com.peak2peakmedia.model.GroceryList2;
 import com.peak2peakmedia.view.*;
 import javafx.application.Application;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Observer;
 
 /**
  * Created by colinhill on 2/9/16.
@@ -42,19 +38,17 @@ public class FX_Main extends Application {
     public static void main(String[] args){launch(args);}
 
     public FX_Main(){
-
-        GroceryList2 list = new GroceryList2();
-        java.util.Observable lost = new java.util.Observable();
-        Supermarket market = new Supermarket(lost, list);
+        GroceryList2 list = new GroceryList2("Listy", groceryItems);
 
 
 
+        Supermarket market = new Supermarket(list);
 
         groceryItems.add(new GroceryItem("Tomatoes", 3, 1.99, 27));
         groceryItems.add(new GroceryItem("Pineapple", 2, 4.99, 12));
         groceryItems.add(new GroceryItem("Apples", 4, 2.99, 4));
 
-        groceryListsData.add(new GroceryList2("MyList", groceryItems, groceryItems.size()));
+        groceryListsData.add(new GroceryList2("MyList", groceryItems));
     }
 
     @Override

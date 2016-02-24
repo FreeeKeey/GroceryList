@@ -59,6 +59,7 @@ public class ItemEditDialogController {
             item.setUnitPrice(Double.parseDouble(itemPriceField.getText()));
             item.setUnitTotalPrice(item.getQty()*item.getUnitPrice());
 
+
             okClicked = true;
             dialogStage.close();
         }
