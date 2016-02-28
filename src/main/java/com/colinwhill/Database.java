@@ -1,6 +1,7 @@
+package com.colinwhill;
 
-import main.java.com.colinwhill.model.GroceryItem;
-import main.java.com.colinwhill.model.GroceryList2;
+import com.colinwhill.model.GroceryItem;
+import com.colinwhill.model.GroceryList2;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -8,175 +9,51 @@ import java.io.File;
 import java.io.PrintStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+
 /**
- * Created by colinhill on 2/1/16.
+ * Created by colinhill on 2/28/16.
  */
-public class Main1 {
+public class Database {
 
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/sys";
-    static final ArrayList<String> listNames = new ArrayList<String>();
+
 
     //  Database credentials
     static final String USER = "root";
     static final String PASS = "teamtreehouse";
 
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-
-        ObservableList<GroceryItem> items = FXCollections.observableArrayList();
-
-        items.add(new GroceryItem("Tomatoes", 3, 1.99, 27));
-        items.add(new GroceryItem("Pineapple", 2, 4.99, 12));
-        items.add(new GroceryItem("Apples", 4, 2.99, 4));
-
-//        GroceryList2 list = new GroceryList2("Listy", items,1);
-
-//        Supermarket market = new Supermarket(list);
+//    public static void main(String[] args) {
+//        Scanner input = new Scanner(System.in);
 //
-//        System.out.println(list);
+//        ObservableList<GroceryItem> items = FXCollections.observableArrayList();
 //
-//        list.addItem(new GroceryItem("Peanuts", 2, 6.99, 2));
+//        items.add(new GroceryItem("Tomatoes", 3, 1.99, 27));
+//        items.add(new GroceryItem("Pineapple", 2, 4.99, 12));
+//        items.add(new GroceryItem("Apples", 4, 2.99, 4));
 //
-//        System.out.println(list);
+////        GroceryList2 list = new GroceryList2("Listy", items,1);
+//
+////        Supermarket market = new Supermarket(list);
+////
+////        System.out.println(list);
+////
+////        list.addItem(new GroceryItem("Peanuts", 2, 6.99, 2));
+////
+////        System.out.println(list);
+//
+//
+//        getListNames();
+//        mainMenu(input);
+//    }
 
 
-        getListNames();
-        mainMenu(input);
-    }
 
-    public static void mainMenu(Scanner input) {
-        boolean flag = true;
-        do {
-            System.out.println("Enter 1 - To Create a New List");
-            System.out.println("Enter 2 - To Edit an existing List");
-            System.out.println("Enter 3 - To Enter Items Menu");
-            System.out.println("Enter 4 - To View all lists\n");
-            System.out.println("Enter 0 - To Exit");
-            int response = input.nextInt();
-            switch (response) {
-                case 1:
-                    createNewList();
-                    break;
-                case 2:
-//                    getListNames();
-                    loadList();
-                    break;
-                case 3:
-                    itemsMenu();
-                    break;
-                case 0:
-                    flag = false;
-                    break;
-                case 4:
-                    getListNames();
-                    break;
-                default:
-                    System.out.println("Please enter a valid menu option");
-                    break;
-            }
-        } while (flag);
-    }
-
-    public static void itemsMenu() {
-        Scanner input = new Scanner(System.in);
-        boolean flag = true;
-
-        do {
-            System.out.println("Enter 1 - To view all Items");
-            System.out.println("Enter 2 - To Create a new Item");
-            System.out.println("Enter 3 - To Delete an Existing Item");
-            System.out.println("Enter 4 - To Add an Item to your List");
-            System.out.println("Enter 9 - To go back to the main Menu");
-
-            int response = input.nextInt();
-
-            switch (response) {
-                case 1:
-                    viewAllItemsInDatabase();
-                    break;
-                case 2:
-                    addItemToDatabase();
-                    break;
-                case 3:
-                    viewAllItemsInDatabase();
-                    System.out.println("Enter the ID of the ITEM you wish to Delete");
-                    deleteItemFromDatabase(input.nextInt());
-                    break;
-                case 4:
-                    flag = false;
-                    break;
-                case 9:
-                    mainMenu(input);
-                    flag = false;
-                    break;
-                default:
-                    System.out.println("Please enter a valid menu option");
-                    break;
-            }
-        } while (flag);
-    }
-
-    public static void createNewList() {
-        Scanner input = new Scanner(System.in);
-
-        GroceryList2 list = new GroceryList2();
-
-        System.out.println("Enter the name for the List: ");
-        list.setName(input.nextLine());
-
-        System.out.printf("Do you want to add items to \" %s \" now? y/n \n", list.getName());
-
-        String response = input.next();
-
-        if (response.contains("y")) {
-            populateList(list);
-        }
-    }
-
-    private static void populateList(GroceryList2 list) {
-        Scanner input = new Scanner(System.in);
-        GroceryItem item;
-        boolean flag = true;
-
-
-        System.out.println("Would you like to add an item? y/n");
-        do {
-            if (input.next().contains("y")) {
-                itemsMenu();
-                System.out.println("Enter the ID of the item you wish to add: ");
-                item = selectItemFromDatabase(input.nextInt());
-                System.out.printf("How many %s(s) would you like to add?", item.getItemName());
-                item.setQty(input.nextInt());
-                System.out.println("Item to be added" + item);
-                list.addItem(item);
-            } else {
-                System.out.println("List before Save \n" + list);
-                saveList(list);
-                flag = false;
-            }
-            System.out.println("Would you like to add another item? y/n");
-        } while (flag);
-    }
-
-
-    // Begin ITEMS
-    public static GroceryItem createNewItem() {
-        Scanner input = new Scanner(System.in);
-
-        System.out.println("Enter the Item Name: ");
-        String name = input.next();
-
-        System.out.println("Enter the Price of the Item: ");
-        double price = input.nextDouble();
-
-        return new GroceryItem(/*ID,*/ name, 1, price, 10);
-    }
-
-    public static void addItemToDatabase() {
+    public void addItemToDatabase(GroceryItem item) {
         Connection connection = null;
         Statement stmt = null;
 
@@ -187,10 +64,8 @@ public class Main1 {
             System.out.println("Inserting records into the table...");
             stmt = connection.createStatement();
 
-            GroceryItem item = createNewItem();
-
             String sql = "INSERT INTO store " +
-                    "VALUES (id, '" + item.getItemName() + "'," + item.getUnitTotalPrice() + item.getStock()+ ")";
+                    "VALUES (id, '" + item.getItemName() + "'," + item.getUnitTotalPrice() + item.getStock() + ")";
             stmt.executeUpdate(sql);
 
             System.out.println("Inserted records into the table...");
@@ -315,7 +190,7 @@ public class Main1 {
             for (GroceryItem item : list.currentGroceryList) {
 
                 String sql = "INSERT INTO storelists " +
-                        "VALUES (id, '" + list.getName() + "', '"+ /* + item.getID() +*/ "', '" + item.getQty() + "')";
+                        "VALUES (id, '" + list.getName() + "', '" + /* + item.getID() +*/ "', '" + item.getQty() + "')";
                 stmt.executeUpdate(sql);
             }
             System.out.println("Inserted records into the table...");
@@ -376,9 +251,10 @@ public class Main1 {
         }
     }
 
-    public static void getListNames() {
+    public List<String> getListNames() {
         Connection conn = null;
         Statement stmt = null;
+        List<String> listNames = new ArrayList<>();
 
         try {
             //STEP 2: Register JDBC driver
@@ -403,13 +279,16 @@ public class Main1 {
             }
             System.out.println();
             rs.close();
+
         } catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
         } catch (Exception e) {
             //Handle errors for Class.forName
             e.printStackTrace();
+            return null;
         }
+        return listNames;
     }
 
     //Format this to look nice for User
@@ -429,4 +308,7 @@ public class Main1 {
             System.out.println("File Not Found!");
         }
     }
+
+
 }
+

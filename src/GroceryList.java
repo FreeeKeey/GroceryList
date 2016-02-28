@@ -1,4 +1,4 @@
-import com.peak2peakmedia.model.GroceryItem;
+import main.java.com.colinwhill.model.GroceryItem;
 
 /**
  * Created by colinhill on 2/1/16.

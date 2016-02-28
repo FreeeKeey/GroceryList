@@ -1,4 +1,4 @@
-package com.peak2peakmedia.model;
+package com.colinwhill.model;
 
 import javafx.beans.property.*;
 

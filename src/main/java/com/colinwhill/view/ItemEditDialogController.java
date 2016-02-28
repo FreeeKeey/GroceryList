@@ -1,8 +1,6 @@
-package com.peak2peakmedia.view;
+package com.colinwhill.view;
 
-import com.peak2peakmedia.model.GroceryItem;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
+import com.colinwhill.model.GroceryItem;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;

@@ -1,12 +1,9 @@
-package com.peak2peakmedia.view;
+package com.colinwhill.view;
 
-import com.peak2peakmedia.model.GroceryList2;
+import com.colinwhill.model.GroceryList2;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by colinhill on 2/10/16.

@@ -1,8 +1,9 @@
-package com.peak2peakmedia.view;
+package com.colinwhill.view;
 
-import com.peak2peakmedia.FX_Main;
-import com.peak2peakmedia.model.GroceryItem;
-import com.peak2peakmedia.model.GroceryList2;
+import com.colinwhill.main.FX_Main;
+import com.colinwhill.model.GroceryItem;
+import com.colinwhill.model.GroceryList2;
+import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -93,6 +94,8 @@ public class GroceryListOverviewController implements Observer{
 
         if (selectedIndex >=0){
             listTable.getItems().remove(selectedIndex);
+
+
         } else {
             //Nothing selected
             Alert alert = new Alert(Alert.AlertType.WARNING);

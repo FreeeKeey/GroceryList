@@ -1,9 +1,15 @@
-package com.peak2peakmedia;
+package com.colinwhill.main;
 
-import com.peak2peakmedia.model.GroceryItem;
-import com.peak2peakmedia.model.GroceryList2;
-import com.peak2peakmedia.view.*;
+import com.colinwhill.Database;
+import com.colinwhill.model.GroceryItem;
+import com.colinwhill.model.GroceryList2;
+import com.colinwhill.model.Supermarket;
+import com.colinwhill.view.GroceryListEditDialogController;
+import com.colinwhill.view.GroceryListOverviewController;
+import com.colinwhill.view.ItemEditDialogController;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 
@@ -22,13 +29,22 @@ public class FX_Main extends Application {
 
     private BorderPane root;
     private Stage primaryStage;
+    private Database DB = new Database();
 
     private ObservableList<GroceryList2> groceryListsData = FXCollections.observableArrayList();
 
     private ObservableList<GroceryItem> groceryItems = FXCollections.observableArrayList();
 
 
-    public ObservableList<GroceryList2> getGroceryListsData(){return groceryListsData;}
+    public ObservableList<GroceryList2> getGroceryListsData()
+    {
+        for (String list:DB.getListNames()) {
+            SimpleStringProperty name = new SimpleStringProperty(list);
+            groceryListsData.add(name);
+        }
+
+
+        return groceryListsData;}
     public ObservableList<GroceryItem> getGroceryItems(){return groceryItems;}
 
     public Stage getPrimaryStage() {
@@ -38,17 +54,17 @@ public class FX_Main extends Application {
     public static void main(String[] args){launch(args);}
 
     public FX_Main(){
-        GroceryList2 list = new GroceryList2("Listy", groceryItems);
+        GroceryList2 list = new GroceryList2("Listy", groceryItems, groceryItems.size());
 
+        getGroceryListsData().add(list);
 
-
-        Supermarket market = new Supermarket(list);
+       Supermarket market = new Supermarket(list);
 
         groceryItems.add(new GroceryItem("Tomatoes", 3, 1.99, 27));
         groceryItems.add(new GroceryItem("Pineapple", 2, 4.99, 12));
         groceryItems.add(new GroceryItem("Apples", 4, 2.99, 4));
 
-        groceryListsData.add(new GroceryList2("MyList", groceryItems));
+        groceryListsData.add(new GroceryList2("MyList", groceryItems, groceryItems.size()));
     }
 
     @Override

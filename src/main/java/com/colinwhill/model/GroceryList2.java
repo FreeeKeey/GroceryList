@@ -1,4 +1,4 @@
-package com.peak2peakmedia.model;
+package com.colinwhill.model;
 
 
 import javafx.beans.property.IntegerProperty;
@@ -20,18 +20,18 @@ public class GroceryList2 extends Observable {
     private final IntegerProperty listItemCount;
 
     public ObservableList<GroceryItem> currentGroceryList = FXCollections.observableArrayList();
-    public ArrayList<Observer> observers = new ArrayList<>();
+    public ArrayList<Observer> observers = new ArrayList<Observer>();
 
     public GroceryList2(){
-        this(null, null);
+        this(null, null, 0);
     }
 
 
-    public GroceryList2(String name, ObservableList itemList) {
+    public GroceryList2(String name, ObservableList itemList, int listSize) {
         this.name = new SimpleStringProperty(name);
         this.currentGroceryList = itemList;
-        this.listItemCount = new SimpleIntegerProperty(currentGroceryList.size());
-        observers = new ArrayList<>();
+        this.listItemCount = new SimpleIntegerProperty(listSize);
+        observers = new ArrayList<Observer>();
 
     }
 
